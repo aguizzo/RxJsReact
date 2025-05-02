@@ -1,12 +1,18 @@
 import React from "react";
-import { createGetters } from "../utils/GettersGenerator";
+import {
+  createGetters,
+  Getters,
+} from "../utils/GettersGenerator";
 import { capitalize } from "../utils/capitalize";
 
-function useStateWithAccessors<T extends object>(initialState: T) {
+function useStateWithAccessors<T extends object>(
+  initialState: T,
+  getterFactory: (obj: T) => Getters<T> = createGetters
+) {
   const [state, setState] = React.useState<T>(initialState);
 
   // Create getters for reading state
-  const getters = createGetters(state);
+  const getters = getterFactory(state);
 
   // Create setters that update React state
   const setters = {} as any;
