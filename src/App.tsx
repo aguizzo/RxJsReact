@@ -1,35 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { Client } from "./utils/Client";
+import { createGetters } from "./utils/GettersGenerator";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const client: Client = {
+    name: "Alice",
+    address: "123 Main St",
+  };
+  const clientWithGetters = createGetters(client);
 
+  console.log(clientWithGetters);
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Client Information</h1>
+      <p>Name: {clientWithGetters.getName()}</p>
+      <p>Address: {clientWithGetters.getAddress()}</p>
+      <h2>Client Object</h2>
+      <pre>{JSON.stringify(client, null, 2)}</pre>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
