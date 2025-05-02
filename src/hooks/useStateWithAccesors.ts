@@ -1,29 +1,17 @@
 import React from "react";
-import {
-  PropertyAccessors,
-  makeAccessors,
-} from "../utils/accessorFactory";
-import { capitalize } from "../utils/capitalize";
+import { PropertyAccessors, makeAccessors } from "../utils/accessorFactory";
+import { makeStateMutators } from "../utils/mutatorsFactory";
 
-function useStateWithAccessors<T extends object>(
+const useStateWithAccessors = <T extends object>(
   initialState: T,
   getterFactory: (obj: T) => PropertyAccessors<T> = makeAccessors
-) {
+) => {
   const [state, setState] = React.useState<T>(initialState);
 
-  // Create getters for reading state
   const getters = getterFactory(state);
-
-  // Create setters that update React state
-  const setters = {} as any;
-  for (const key in state) {
-    const setterName = `set${capitalize(key)}`;
-    setters[setterName] = (value: any) => {
-      setState((prev) => ({ ...prev, [key]: value }));
-    };
-  }
+  const setters = makeStateMutators(state, setState);
 
   return { state, ...getters, ...setters };
-}
+};
 
 export { useStateWithAccessors };
