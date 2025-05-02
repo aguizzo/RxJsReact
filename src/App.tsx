@@ -4,21 +4,20 @@ import { useStateWithAccessors } from "./hooks/useStateWithAccesors";
 import { makeLoggingAccessors } from "./utils/accessorFactory";
 
 function App() {
-  // Use our custom hook
-  const client = useStateWithAccessors<Client>({
-    name: "Alice",
-    address: "123 Main St",
-  }, makeLoggingAccessors);
+  const client = useStateWithAccessors<Client>(
+    {
+      name: "Alice",
+      address: "123 Main St",
+    },
+    makeLoggingAccessors
+  );
 
   return (
     <>
-      <h2>Client Object</h2>
-      <pre>{JSON.stringify(client.state, null, 2)}</pre>
-      
       <h1>Client Information</h1>
       <p>Name: {client.getName()}</p>
       <p>Address: {client.getAddress()}</p>
-      
+
       <button onClick={() => client.setName("Charlie")}>
         Change Name to Charlie
       </button>
