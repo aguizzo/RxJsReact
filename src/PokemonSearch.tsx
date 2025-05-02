@@ -1,31 +1,18 @@
-import React, { useRef, useMemo } from "react";
-import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, from, mergeMap } from "rxjs";
-import { useObservable } from "./hooks/useObservable";
+import React, { useState } from "react";
 import { getPokemonByName } from "./api/pokemonApi";
+import { useRxSearch } from "./hooks/useRxSearch";
 
 const PokemonSearch = () => {
-  const [search, setSearch] = React.useState<string>("");
-  const [pokemonList, setPokemonList] = React.useState<any[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [pokemonList, setPokemonList] = useState<any[]>([]);
   
-  // Use useRef to maintain stable reference between renders
-  const searchSubject = useRef(new BehaviorSubject<string>("")).current;
-  
-  // Create the observable pipeline inside the component
-  const searchResultObservable = useMemo(() => {
-    return searchSubject.pipe(
-      filter(searchTerm => searchTerm.length > 1),
-      debounceTime(500),
-      distinctUntilChanged(),
-      mergeMap((searchTerm) => from(getPokemonByName(searchTerm)))
-    );
-  }, []);  // Empty dependency array since it doesn't depend on props/state
-
-  useObservable(searchResultObservable, setPokemonList);
+  // Use our custom hook for search functionality
+  const updateSearch = useRxSearch(getPokemonByName, setPokemonList);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    searchSubject.next(value);
     setSearch(value);
+    updateSearch(value);
   };
 
   return (
@@ -37,11 +24,11 @@ const PokemonSearch = () => {
         onChange={handleSearchChange}
         placeholder="Search for a Pokemon"
       />
-        <ul>
-            {pokemonList.map((pokemon) => (
-            <li key={pokemon.name}>{pokemon.name}</li>
-            ))}
-        </ul>
+      <ul>
+        {pokemonList.map((pokemon) => (
+          <li key={pokemon.name}>{pokemon.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };
