@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useMemo } from "react";
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, from, mergeMap } from "rxjs";
 import { useObservable } from "./hooks/useObservable";
 import { fetchAllPokemon } from "./api/pokemonApi";
@@ -10,17 +10,22 @@ import { fetchAllPokemon } from "./api/pokemonApi";
     );
   };
 
-let searchSubject = new BehaviorSubject<string>("");
-let searchResultObservable = searchSubject.pipe(
-    filter(searchTerm => searchTerm.length > 1),
-    debounceTime(500),
-    distinctUntilChanged(),
-    mergeMap((searchTerm) => from(getPokemonByName(searchTerm)))
-);
-
 const PokemonSearch = () => {
   const [search, setSearch] = React.useState<string>("");
   const [pokemonList, setPokemonList] = React.useState<any[]>([]);
+  
+  // Use useRef to maintain stable reference between renders
+  const searchSubject = useRef(new BehaviorSubject<string>("")).current;
+  
+  // Create the observable pipeline inside the component
+  const searchResultObservable = useMemo(() => {
+    return searchSubject.pipe(
+      filter(searchTerm => searchTerm.length > 1),
+      debounceTime(500),
+      distinctUntilChanged(),
+      mergeMap((searchTerm) => from(getPokemonByName(searchTerm)))
+    );
+  }, []);  // Empty dependency array since it doesn't depend on props/state
 
   useObservable(searchResultObservable, setPokemonList);
 
