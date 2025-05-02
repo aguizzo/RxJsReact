@@ -1,14 +1,14 @@
 import "./App.css";
 import { Client } from "./utils/Client";
 import { useStateWithAccessors } from "./hooks/useStateWithAccesors";
-import { createGettersWithLogging } from "./utils/GettersGenerator";
+import { makeLoggingAccessors } from "./utils/accessorFactory";
 
 function App() {
   // Use our custom hook
   const client = useStateWithAccessors<Client>({
     name: "Alice",
     address: "123 Main St",
-  }, createGettersWithLogging);
+  }, makeLoggingAccessors);
 
   return (
     <>

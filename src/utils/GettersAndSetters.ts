@@ -1,5 +1,5 @@
 import { capitalize } from "./capitalize";
-import { Getters } from "./GettersGenerator";
+import { Getters } from "./accessorFactory";
 import { Setters } from "./SettersGenerators";
 
 // Type for combined getters and setters

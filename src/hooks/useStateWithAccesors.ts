@@ -1,13 +1,13 @@
 import React from "react";
 import {
-  createGetters,
-  Getters,
-} from "../utils/GettersGenerator";
+  PropertyAccessors,
+  makeAccessors,
+} from "../utils/accessorFactory";
 import { capitalize } from "../utils/capitalize";
 
 function useStateWithAccessors<T extends object>(
   initialState: T,
-  getterFactory: (obj: T) => Getters<T> = createGetters
+  getterFactory: (obj: T) => PropertyAccessors<T> = makeAccessors
 ) {
   const [state, setState] = React.useState<T>(initialState);
 
