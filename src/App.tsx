@@ -3,6 +3,7 @@ import { Client } from "./utils/Client";
 import { useStateWithAccessors } from "./hooks/useStateWithAccesors";
 import { makeLoggingAccessors } from "./utils/accessorFactory";
 import ObservableExample from "./ObservableExample";
+import PokemonSearch from "./PokemonSearch";
 
 function App() {
   const client = useStateWithAccessors<Client>(
@@ -25,6 +26,7 @@ function App() {
         Change Address
       </button>
       <ObservableExample />
+      <PokemonSearch />
     </>
   );
 }
