@@ -1,15 +1,14 @@
 import React from "react";
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, from, mergeMap } from "rxjs";
 import { useObservable } from "./hooks/useObservable";
+import { fetchAllPokemon } from "./api/pokemonApi";
 
-const getPokemonByName = async (name: string) => {
-  const { results: allPokemon } = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/?limit=1000`
-  ).then((res) => res.json());
-  return allPokemon.filter((pokemon: { name: string }) =>
-    pokemon.name.includes(name)
-  );
-};
+ const getPokemonByName = async (name: string) => {
+    const allPokemon = await fetchAllPokemon();
+    return allPokemon.filter((pokemon: { name: string }) =>
+      pokemon.name.includes(name)
+    );
+  };
 
 let searchSubject = new BehaviorSubject<string>("");
 let searchResultObservable = searchSubject.pipe(
