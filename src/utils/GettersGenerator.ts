@@ -1,3 +1,5 @@
+import { capitalize } from "./capitalize";
+
 export type Getters<T> = {
     [K in keyof T as `get${Capitalize<string & K>}`]:  () => T[K];
 };
@@ -12,9 +14,4 @@ export function createGetters<T>(obj: T): Getters<T> {
     }
     
     return result;
-}
-
-// Helper to capitalize the first letter of a string
-function capitalize(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
 }
