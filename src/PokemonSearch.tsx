@@ -1,14 +1,7 @@
 import React, { useRef, useMemo } from "react";
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, from, mergeMap } from "rxjs";
 import { useObservable } from "./hooks/useObservable";
-import { fetchAllPokemon } from "./api/pokemonApi";
-
- const getPokemonByName = async (name: string) => {
-    const allPokemon = await fetchAllPokemon();
-    return allPokemon.filter((pokemon: { name: string }) =>
-      pokemon.name.includes(name)
-    );
-  };
+import { getPokemonByName } from "./api/pokemonApi";
 
 const PokemonSearch = () => {
   const [search, setSearch] = React.useState<string>("");
