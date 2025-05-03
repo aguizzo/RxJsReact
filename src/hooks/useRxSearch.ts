@@ -5,7 +5,7 @@ import {
   distinctUntilChanged,
   filter,
   from,
-  mergeMap,
+  switchMap,
 } from "rxjs";
 import { useObservable } from "./useObservable";
 
@@ -31,7 +31,7 @@ const useRxSearch = <T>(
       filter((searchTerm) => searchTerm.length >= options.minLength),
       debounceTime(options.debounceMs),
       distinctUntilChanged(),
-      mergeMap((searchTerm) => from(searchFn(searchTerm)))
+      switchMap((searchTerm) => from(searchFn(searchTerm)))
     );
   }, [searchFn, options.debounceMs, options.minLength]);
 
