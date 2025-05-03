@@ -1,5 +1,5 @@
 import { delay, filter, from, map, mergeMap } from "rxjs";
-import { useObservable } from "./hooks/useObservable";
+import { useObservable } from "../hooks/useObservable";
 import React from "react";
 
 let numbersObervable = from([1, 2, 3, 4, 5]);

@@ -1,6 +1,6 @@
-import { Client } from "./utils/Client";
-import { useStateWithAccessors } from "./hooks/useStateWithAccesors";
-import { makeLoggingAccessors } from "./utils/accessorFactory";
+import { Client } from "../utils/Client"; 
+import { useStateWithAccessors } from "../hooks/useStateWithAccesors";
+import { makeLoggingAccessors } from "../utils/accessorFactory";
 
 const StateWithAccessorsExample = () => {
   const client = useStateWithAccessors<Client>(

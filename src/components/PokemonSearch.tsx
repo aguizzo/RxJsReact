@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { getPokemonByName } from "./api/pokemonApi";
-import { useRxSearch } from "./hooks/useRxSearch";
+import { getPokemonByName } from "../api/pokemonApi";
+import { useRxSearch } from "../hooks/useRxSearch";
 
 const PokemonSearch = () => {
   const [search, setSearch] = useState<string>("");
