@@ -6,8 +6,16 @@ const useObservable = <T>(
   setter: (value: T) => void
 ) => {
   useEffect(() => {
-    const subscription = observable.subscribe((value) => {
-      setter(value);
+    const subscription = observable.subscribe({
+      next: (value) => {
+        setter(value);
+      },
+      error: (err) => {
+        console.error("Error in observable:", err);
+      },
+      complete: () => {
+        console.info("Observable completed");
+      },
     });
 
     return () => {
@@ -16,4 +24,3 @@ const useObservable = <T>(
   }, [observable, setter]);
 };
 export { useObservable };
-
